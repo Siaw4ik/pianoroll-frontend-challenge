@@ -1,5 +1,8 @@
 import PianoRoll from './pianoroll.js';
 
+const pianoField = document.querySelector('.pianoRollContainer');
+const mainPiano = document.querySelector('.mainPiano')
+
 class PianoRollDisplay {
   constructor(csvURL) {
     this.csvURL = csvURL;
@@ -36,6 +39,15 @@ class PianoRollDisplay {
     // Append the SVG to the card container
     cardDiv.appendChild(svg);
 
+    // Adding functionality to zoom in and become the main element on the page
+    cardDiv.addEventListener('click', () => {
+      pianoField.classList.add('showCard');
+      mainPiano.classList.add('active');
+      mainPiano.innerHTML = '';
+      const cloneCard = cardDiv.cloneNode(true);
+      mainPiano.appendChild(cloneCard);
+    })
+
     return { cardDiv, svg }
   }
 
@@ -43,7 +55,7 @@ class PianoRollDisplay {
     if (!this.data) await this.loadPianoRollData();
     if (!this.data) return;
     
-    const pianoRollContainer = document.getElementById('pianoRollContainer');
+    const pianoRollContainer = document.querySelector('.pianoRollContainer');
     pianoRollContainer.innerHTML = '';
     for (let it = 0; it < 20; it++) {
       const start = it * 60;
