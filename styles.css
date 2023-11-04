@@ -82,7 +82,12 @@ button:hover {
   width: 100%;
   box-sizing: border-box;
   cursor: pointer;
+  position: relative;
 }
+
+/* .piano-roll-card:hover {
+  transform: scale(1.05);
+}  */
 
 .description {
   margin-top: 10px;
@@ -112,6 +117,21 @@ button:hover {
   flex: 70%;
   align-self: flex-start;
   width: 100%;
+}
+
+.hoverLine.active {
+  display: block;
+}
+
+.hoverLine {
+  display: none;
+}
+
+.crossRect {
+  width: 16px;
+  height: 16px;
+  position: absolute;
+
 }
 
 @media (max-width: 1000px) {

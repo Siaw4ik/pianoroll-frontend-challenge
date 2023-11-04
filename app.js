@@ -7,6 +7,8 @@ class PianoRollDisplay {
   constructor(csvURL) {
     this.csvURL = csvURL;
     this.data = null;
+    this.selctedSVG = null;
+    this.selectedIndex = 0;
   }
 
   async loadPianoRollData() {
@@ -41,11 +43,33 @@ class PianoRollDisplay {
 
     // Adding functionality to zoom in and become the main element on the page
     cardDiv.addEventListener('click', () => {
+      /* pianoField.classList.add('showCard');
+      mainPiano.classList.add('active');
+      mainPiano.innerHTML = ''; */
+
+      if(this.selctedSVG){
+        pianoField.insertBefore(this.selctedSVG, pianoField.children[this.selectedIndex]);
+        pianoField.querySelectorAll('.piano-roll-svg').forEach(roll => {
+          roll.classList.remove('mainPianoSVG')
+          let chooseSpace = roll.querySelector('.chooseSpace');
+          /* let cross = roll.parentNode.getElementById('crossRect') */
+          if(chooseSpace) chooseSpace.remove();
+
+
+        }) 
+        pianoField.querySelectorAll('.piano-roll-card').forEach(card => {
+          let cross = card.querySelector('.crossRect');
+          if(cross) cross.remove();
+        })
+      }
+
       pianoField.classList.add('showCard');
       mainPiano.classList.add('active');
       mainPiano.innerHTML = '';
-      const cloneCard = cardDiv.cloneNode(true);
-      mainPiano.appendChild(cloneCard);
+      svg.classList.add('mainPianoSVG')
+      this.selctedSVG = cardDiv;
+      this.selectedIndex = Array.from(pianoField.children).indexOf(this.selctedSVG)
+      mainPiano.appendChild(cardDiv);
     })
 
     return { cardDiv, svg }

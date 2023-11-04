@@ -26,7 +26,9 @@ export default class PianoRoll {
 
     this.svgElement.setAttribute("viewBox", "0 0 1 1");
     this.svgElement.setAttribute("preserveAspectRatio", "none");
-    this.drawPianoRoll(sequence)
+    this.drawPianoRoll(sequence);
+    this.drawHoverVeticalLine();
+    this.drawChooseSpace();
   }
 
   timeToX(time) {
@@ -128,5 +130,104 @@ export default class PianoRoll {
       line.setAttribute('stroke', 'black');
       this.svgElement.appendChild(line);
     }
+  }
+
+  drawHoverVeticalLine(){
+    let line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+
+    let widthLine = 0.005;
+
+    line.setAttribute('x1', '0');
+    line.setAttribute('y1', `0`);
+    line.setAttribute('x2', '0');
+    line.setAttribute('y2', `150`);
+    line.setAttribute('stroke', 'black');
+    line.setAttribute('stroke-width', `${widthLine}`);
+    line.classList.add('hoverLine');
+
+    this.svgElement.addEventListener('mousemove', (event) => {
+      if(this.svgElement.classList.value.includes('mainPianoSVG')){
+        const x = (event.clientX - this.svgElement.getBoundingClientRect().left) / this.svgElement.clientWidth - widthLine / 2;
+        line.classList.add('active')
+        line.setAttribute('x1', x);
+        line.setAttribute('x2', x);
+        this.svgElement.appendChild(line);
+      }
+
+    })
+
+    this.svgElement.addEventListener('mouseleave', () => {
+      if(this.svgElement.classList.value.includes('mainPianoSVG')){
+        line.classList.remove('active');
+      }
+    });
+  }
+
+  drawChooseSpace(){
+    let rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+    rect.classList.add('chooseSpace')
+
+    const cross = document.createElement('img');
+    cross.src = './assets/cross.svg';
+    cross.classList.add('crossRect')
+
+    let haveRect = false;
+    let drawingRect = false;
+
+    let rectX = 0;
+    let rectY = 0;
+    let rectW = 0;
+    let rectH = 146;
+
+    this.svgElement.addEventListener('mousemove', (event) => {
+      if(this.svgElement.classList.value.includes('mainPianoSVG')){
+        if(drawingRect) {
+          rectW = ((event.clientX - this.svgElement.getBoundingClientRect().left) / this.svgElement.clientWidth ) - rectX;
+          if(rectW > this.svgElement.clientWidth/100000) {
+            haveRect = true;
+            rect.setAttribute('width', `${rectW}`);
+          }
+        }
+      }
+
+    })
+
+    this.svgElement.addEventListener('mousedown', (event) => {
+      if(this.svgElement.classList.value.includes('mainPianoSVG')){
+        console.log('start')
+        if(this.svgElement.parentNode.contains(cross)) {
+          this.svgElement.parentNode.removeChild(cross)
+        }
+        drawingRect = true;
+        rectX = (event.clientX - this.svgElement.getBoundingClientRect().left) / this.svgElement.clientWidth;
+        rect.setAttribute('x', `${rectX}`);
+        rect.setAttribute('y', `${rectY}`);
+        rect.setAttribute('width', `0`);
+        rect.setAttribute('height', `${rectH / this.svgElement.clientHeight}`);
+        rect.setAttribute('fill', `rgba(255, 255, 0, 0.5)`);
+
+        this.svgElement.appendChild(rect);
+      }
+    })
+
+    this.svgElement.addEventListener('mouseup', (event) => {
+      if(this.svgElement.classList.value.includes('mainPianoSVG')){
+        console.log('end')
+        drawingRect = false;
+        cross.style.top = '45px'
+        cross.style.left = `${(event.clientX - this.svgElement.parentNode.getBoundingClientRect().left) - 20}px `
+
+        if(haveRect){this.svgElement.parentNode.appendChild(cross)}
+        haveRect = false;
+      }
+      
+    })
+
+    cross.addEventListener('click', () => {
+      this.svgElement.removeChild(rect);
+      this.svgElement.parentNode.removeChild(cross)
+      haveRect = false;
+      rectW = 0
+    })
   }
 }
