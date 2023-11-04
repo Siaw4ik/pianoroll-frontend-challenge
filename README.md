@@ -3,7 +3,7 @@
 ### My task
 **Link to video of completed task:** https://youtu.be/ZEM9xA3u4MM
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/ZEM9xA3u4MM" frameborder="0" allowfullscreen></iframe>
+[![Пример видео](https://www.youtube.com/watch?v=ZEM9xA3u4MM)](https://www.youtube.com/watch?v=ZEM9xA3u4MM)
 
 ## Introduction
 
