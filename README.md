@@ -3,8 +3,6 @@
 ### My task
 **Link to video of completed task:** https://youtu.be/ZEM9xA3u4MM
 
-[![Пример видео](https://www.youtube.com/watch?v=ZEM9xA3u4MM)](https://www.youtube.com/watch?v=ZEM9xA3u4MM)
-
 ## Introduction
 
 You will be building on top of a demo code that generates a widget for browsing Piano Rolls - the core element of [Piano Roll](https://pianoroll.io).
