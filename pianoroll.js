@@ -180,6 +180,7 @@ export default class PianoRoll {
     let rectH = 146;
 
     this.svgElement.addEventListener('mousemove', (event) => {
+      event.preventDefault();
       if(this.svgElement.classList.value.includes('mainPianoSVG')){
         if(drawingRect) {
           rectW = ((event.clientX - this.svgElement.getBoundingClientRect().left) / this.svgElement.clientWidth ) - rectX;
@@ -193,6 +194,7 @@ export default class PianoRoll {
     })
 
     this.svgElement.addEventListener('mousedown', (event) => {
+      event.preventDefault();
       if(this.svgElement.classList.value.includes('mainPianoSVG')){
         console.log('start')
         if(this.svgElement.parentNode.contains(cross)) {
@@ -211,6 +213,7 @@ export default class PianoRoll {
     })
 
     this.svgElement.addEventListener('mouseup', (event) => {
+      event.preventDefault();
       if(this.svgElement.classList.value.includes('mainPianoSVG')){
         console.log('end')
         drawingRect = false;
